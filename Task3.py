@@ -3,6 +3,7 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files.
 """
 import csv
+import re
 
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
@@ -50,34 +51,37 @@ Part A
 
 Input: Call list
 
-Outputs: numbers called from Bangalore phones
-- Fixed lines with area codes wrapped in parens f"({area_code})"
-- Mobile numbers starting with 7,8 or 9 with space in middle
-- Telemarketers phones starting with 140 (no parens)
+Outputs: lexicographically sorted list of area codes called from Bangalore phones
+- Area codes from fixed lines inside the parens e.g. (987) --> 987
+- First four numbers from mobile numbers starting with 7,8 or 9 with space in middle
+- 140 if number starts with those 3 numbers (telemarketers)
 
-Approach: Filter by above parameters:
-- Starts with 140 or 7/8/9 no parens
-- Starts with anything between parens
-
-Questions: Are there any numbers in the data set that don't satisfy those criteria above? Verify, but if not,
-take the simplest approach.
 """
 
-# See if some numbers don't satisfy the above criteria
-def compare_sets_of_numbers(call_list):
-  first_character_criteria = ["(", "7", "8", "9"]
-  first_three_characters_criteria = ["140"]
+# Helper function to cut the area codes out
+def slice_area_codes(number):
+  if " " in number:
+    return number[slice(4)]
+  elif number[0:3] == "140":
+    return "140"
+  elif "(" in number:
+    match = re.search('\(([0-9]*)\)', number)
+    if match: 
+      return match.group(1)
 
-  full_list = []
-  criteria_list = []
+# Create list of phone numbers called from Bangalore
+call_recipients_codes = set()
+
+def filter_by_area_code(call_list):
+  bangalore_area_code = "(080)"
   for rows in call_list:
-    full_list.append(rows[1])
-    if rows[1][0] in first_character_criteria or rows[1][0:2] in first_three_characters_criteria:
-      criteria_list.append(rows[1])
-  if len(full_list) == len(criteria_list):
-    print(len(full_list), len(criteria_list))
-    print('The lengths match.')
-  else:
-    print('They lengths do not match.')
+    if bangalore_area_code in rows[0] and bangalore_area_code not in rows[1]:
+      sliced_code = slice_area_codes(rows[1])
+      call_recipients_codes.add(sliced_code)
 
-compare_sets_of_numbers(calls)
+filter_by_area_code(calls)
+unique_area_codes = sorted(call_recipients_codes)
+
+
+print(f"The numbers called by people in Bangalore have codes:") 
+[print(line) for line in unique_area_codes]
