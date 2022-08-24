@@ -5,11 +5,11 @@ It's ok if you don't understand how to read files.
 import csv
 import re
 
-with open('texts.csv', 'r') as f:
+with open("texts.csv", "r") as f:
     reader = csv.reader(f)
     texts = list(reader)
 
-with open('calls.csv', 'r') as f:
+with open("calls.csv", "r") as f:
     reader = csv.reader(f)
     calls = list(reader)
 
@@ -47,7 +47,7 @@ The percentage should have 2 decimal digits
 """
 
 """
-Part A
+Own Notes: Part A
 
 Input: Call list
 
@@ -56,32 +56,63 @@ Outputs: lexicographically sorted list of area codes called from Bangalore phone
 - First four numbers from mobile numbers starting with 7,8 or 9 with space in middle
 - 140 if number starts with those 3 numbers (telemarketers)
 
+Own Notes: Part B
+
+Input: Call List with only calls from Bangalore, broken up into two sets: 
+  - Calls within the same area code
+  - Calls to another area code
+
+Outputs: Percentage of calls from Bangalore to Bangalore
+
 """
 
-# Helper function to cut the area codes out
+# Helper function to slice the area codes
 def slice_area_codes(number):
-  if " " in number:
-    return number[slice(4)]
-  elif number[0:3] == "140":
-    return "140"
-  elif "(" in number:
-    match = re.search('\(([0-9]*)\)', number)
-    if match: 
-      return match.group(1)
+    if " " in number:
+        return number[slice(4)]
+    elif number[0:3] == "140":
+        return "140"
+    elif "(" in number:
+        match = re.search("\(([0-9]*)\)", number)
+        if match:
+            return match.group(1)
 
-# Create list of phone numbers called from Bangalore
-call_recipients_codes = set()
+
+# Create set of area codes called from, but not in, Bangalore
+# and a set of numbers in Bangalore called from the same location for part B
+call_recipients_not_in_bangalore_codes = set()
+call_recipients_in_bangalore = set()
+
 
 def filter_by_area_code(call_list):
-  bangalore_area_code = "(080)"
-  for rows in call_list:
-    if bangalore_area_code in rows[0] and bangalore_area_code not in rows[1]:
-      sliced_code = slice_area_codes(rows[1])
-      call_recipients_codes.add(sliced_code)
+    bangalore_area_code = "(080)"
+    for rows in call_list:
+        if bangalore_area_code in rows[0] and bangalore_area_code not in rows[1]:
+            sliced_code = slice_area_codes(rows[1])
+            call_recipients_not_in_bangalore_codes.add(sliced_code)
+        elif bangalore_area_code in rows[0] and bangalore_area_code in rows[1]:
+            call_recipients_in_bangalore.add(rows[1])
 
+
+def get_percentage_of_same_area_code_calls(
+    same_area_recipients, out_of_area_recipients
+):
+    total_calls_from_bangalore = len(same_area_recipients) + len(out_of_area_recipients)
+    percentage_same_area_calls = (
+        len(same_area_recipients) / total_calls_from_bangalore * 100
+    )
+    return percentage_same_area_calls
+
+
+# Part A
 filter_by_area_code(calls)
-unique_area_codes = sorted(call_recipients_codes)
-
-
-print(f"The numbers called by people in Bangalore have codes:") 
+unique_area_codes = sorted(call_recipients_not_in_bangalore_codes)
+print(f"The numbers called by people in Bangalore have codes:")
 [print(line) for line in unique_area_codes]
+
+# Part B
+same_area_percentage = get_percentage_of_same_area_code_calls(
+    call_recipients_in_bangalore, call_recipients_not_in_bangalore_codes
+)
+print(f"\n {same_area_percentage:.2f} percent of calls from fixed lines in Bangalore are calls" \
+" to other fixed lines in Bangalore.")
