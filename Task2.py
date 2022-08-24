@@ -51,8 +51,6 @@ def phone_number_with_most_rows(call_list):
 
 create_unique_phone_numbers_dict(calls)
 number = phone_number_with_most_rows(calls)
-# number = "(080)62164823"
-
 
 def add_phone_number_seconds(call_list):
     seconds_count = 0
