@@ -39,7 +39,7 @@ Part A:  (n+1+3) + 2 + n log n + n = 2n + n log n + 6 -- simplified **O(n log n)
 
 Once these operations are complete, we sort the set, with a complexity of **n log n**. To print the result we loop over the set for a complexity of **n**.
 
-Part B: + 2 = **O()**.  We use one of the same sets created in Part A, so that time complexity carries over. A function to calculate the percentage is done in 2 lines.
+Part B: n log n + 2 = **O(n log n)**.  We use one of the same sets created in Part A, so that time complexity carries over. A function to calculate the percentage is done in 2 lines.
 
 ### Task 4
 
