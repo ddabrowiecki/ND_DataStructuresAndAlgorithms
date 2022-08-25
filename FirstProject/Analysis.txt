@@ -39,7 +39,7 @@ Part A:  (n+1+3) + 3 + n log n + n = 2n + n log n + 7 -- O(n log n). One set and
 
 Once these operations are complete, we sort the set, with a complexity of n log n. To print the result we loop over the set for a complexity of n.
 
-Part B: n log n + 1 -- O(n log n).  We use the count variables created in Part A, so that time complexity carries over. A calculations of percentage is done in 1 lines.
+Part B: n log n + 1 -- O(n log n).  We use the count variables created in Part A, so that time complexity carries over. A calculation of percentage is done in 1 line.
 
 Task 4
 
