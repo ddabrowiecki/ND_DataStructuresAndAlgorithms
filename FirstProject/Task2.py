@@ -21,48 +21,32 @@ Print a message:
 September 2016.".
 """
 
-# Get dictionary of unique keys
+# Get dictionary of unique keys, keys as phone numbers, values as minutes on the phone
 count_map = {}
 
-
 def create_unique_phone_numbers_dict(call_list):
-    for records in call_list:
-        count_map[records[0]] = 1
-        count_map[records[1]] = 1
+    for record in call_list:
+        if record[0] in count_map.keys():
+            count_map[record[0]] += int(record[3])
+        else:
+            count_map[record[0]] = int(record[3])
+    for record in call_list:
+        if record[1] in count_map.keys():
+            count_map[record[1]] += int(record[3])
+        else:
+            count_map[record[1]] = int(record[3])
 
-
-def phone_number_with_most_rows(call_list):
-    highest_number_rows = 0
-    # Count number of rows that the phone numbers appear in
-    for rows in call_list:
-        if rows[0] in count_map.keys():
-            count_map[rows[0]] += 1
-        elif rows[0] in count_map.keys():
-            count_map[rows[1]] += 1
-    # Determine highest number of rows
-    for number, row_count in count_map.items():
-        if row_count >= highest_number_rows:
-            highest_number_rows = row_count
-    # Find key of highest number
+def get_number_with_maximum_seconds():
+    max_seconds = max(count_map.values())
+    # Find key of maximum seconds
     for key in count_map:
-        if count_map[key] == highest_number_rows:
-            return key
+        if count_map[key] == max_seconds:
+            return key, max_seconds
 
 
 create_unique_phone_numbers_dict(calls)
-number = phone_number_with_most_rows(calls)
-
-def add_phone_number_seconds(call_list):
-    seconds_count = 0
-    for rows in call_list:
-        if rows[0] == number or rows[1] == number:
-            seconds_count += int(rows[3])
-    return seconds_count
-
-
-total_seconds = add_phone_number_seconds(calls)
-
+number, max_seconds = get_number_with_maximum_seconds()
 
 print(
-    f"{number} spent the longest time, {total_seconds} seconds, on the phone during September 2016."
+    f"{number} spent the longest time, {max_seconds} seconds, on the phone during September 2016."
 )

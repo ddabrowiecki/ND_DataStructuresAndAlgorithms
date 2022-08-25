@@ -58,9 +58,9 @@ Outputs: lexicographically sorted list of area codes called from Bangalore phone
 
 Own Notes: Part B
 
-Input: Call List with only calls from Bangalore, broken up into two sets: 
-  - Calls within the same area code
-  - Calls to another area code
+Input: Call List with only calls from Bangalore, broken up into 2 count variables: 
+  - Calls within the same area code 
+  - Calls to another area code 
 
 Outputs: Percentage of calls from Bangalore to Bangalore
 
@@ -81,28 +81,20 @@ def slice_area_codes(number):
 # Create set of area codes called from, but not in, Bangalore
 # and a set of numbers in Bangalore called from the same location for part B
 call_recipients_not_in_bangalore_codes = set()
-call_recipients_in_bangalore = set()
-
+count1 = 0
+count2 = 0
 
 def filter_by_area_code(call_list):
     bangalore_area_code = "(080)"
+    global count1
+    global count2
     for rows in call_list:
         if bangalore_area_code in rows[0] and bangalore_area_code not in rows[1]:
             sliced_code = slice_area_codes(rows[1])
             call_recipients_not_in_bangalore_codes.add(sliced_code)
+            count1 += 1
         elif bangalore_area_code in rows[0] and bangalore_area_code in rows[1]:
-            call_recipients_in_bangalore.add(rows[1])
-
-
-def get_percentage_of_same_area_code_calls(
-    same_area_recipients, out_of_area_recipients
-):
-    total_calls_from_bangalore = len(same_area_recipients) + len(out_of_area_recipients)
-    percentage_same_area_calls = (
-        len(same_area_recipients) / total_calls_from_bangalore * 100
-    )
-    return percentage_same_area_calls
-
+            count2 += 1
 
 # Part A
 filter_by_area_code(calls)
@@ -111,8 +103,6 @@ print(f"The numbers called by people in Bangalore have codes:")
 [print(line) for line in unique_area_codes]
 
 # Part B
-same_area_percentage = get_percentage_of_same_area_code_calls(
-    call_recipients_in_bangalore, call_recipients_not_in_bangalore_codes
-)
+same_area_percentage = count2 / (count1 + count2) * 100
 print(f"\n {same_area_percentage:.2f} percent of calls from fixed lines in Bangalore are calls" \
 " to other fixed lines in Bangalore.")
