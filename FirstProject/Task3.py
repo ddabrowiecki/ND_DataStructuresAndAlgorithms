@@ -84,6 +84,7 @@ call_recipients_not_in_bangalore_codes = set()
 count1 = 0
 count2 = 0
 
+
 def filter_by_area_code(call_list):
     bangalore_area_code = "(080)"
     global count1
@@ -96,6 +97,7 @@ def filter_by_area_code(call_list):
         elif bangalore_area_code in rows[0] and bangalore_area_code in rows[1]:
             count2 += 1
 
+
 # Part A
 filter_by_area_code(calls)
 unique_area_codes = sorted(call_recipients_not_in_bangalore_codes)
@@ -104,5 +106,7 @@ print(f"The numbers called by people in Bangalore have codes:")
 
 # Part B
 same_area_percentage = count2 / (count1 + count2) * 100
-print(f"\n {same_area_percentage:.2f} percent of calls from fixed lines in Bangalore are calls" \
-" to other fixed lines in Bangalore.")
+print(
+    f"\n {same_area_percentage:.2f} percent of calls from fixed lines in Bangalore are calls"
+    " to other fixed lines in Bangalore."
+)

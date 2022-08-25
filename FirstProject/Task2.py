@@ -24,6 +24,7 @@ September 2016.".
 # Get dictionary of unique keys, keys as phone numbers, values as minutes on the phone
 count_map = {}
 
+
 def create_unique_phone_numbers_dict(call_list):
     for record in call_list:
         if record[0] in count_map.keys():
@@ -35,6 +36,7 @@ def create_unique_phone_numbers_dict(call_list):
             count_map[record[1]] += int(record[3])
         else:
             count_map[record[1]] = int(record[3])
+
 
 def get_number_with_maximum_seconds():
     max_seconds = max(count_map.values())
