@@ -27,7 +27,7 @@ Task 2
 
 Request: Print the phone number having the longest total duration of calls (sending and receiving)
 
-Worst Case Time Complexity: (n+1) + (n+1) + (n+1) + (n+2) + (n+2) + 1 + 1 = 5n+9 -- O(n).  Iteration through each number in the call logs was necessary 5 times, with some for loops having 1 operation and others having 2.  A dictionary was created in 1 line and a print statement at the end of the file was executed on 1 line.
+Worst Case Time Complexity: (n+2) + (n+2) + (n+1) 1 + 1 + 1 = 5n+9 -- O(n).  Iteration through each number in the call logs was necessary 3 times, with some for loops having 1 operation and others having 2.  A dictionary was created in 1 line, a max_seconds variable was created on one line and a print statement at the end of the file was executed on 1 line.
 
 Task 3
 
@@ -35,11 +35,11 @@ Request: Print area codes and mobile prefixes of numbers called from area code (
 
 Worst Case Time Complexity: 
 
-Part A:  (n+1+3) + 2 + n log n + n = 2n + n log n + 6 -- O(n log n). Two sets were created on 2 lines, and a for loop with two conditions was necessary, where one of the conditions executed 3 checks (this was the worst case of the conditions).  That condition contains a regex, which can increase complexity if searching through large strings; however, here we have limited amounts of characters per phone number.
+Part A:  (n+1+3) + 3 + n log n + n = 2n + n log n + 7 -- O(n log n). One set and 2 count variables were created on 3 lines, and a for loop with two conditions was necessary, where one of the conditions executed 3 checks (this was the worst case of the conditions).  That condition contains a regex, which can increase complexity if searching through large strings; however, here we have limited amounts of characters per phone number.
 
 Once these operations are complete, we sort the set, with a complexity of n log n. To print the result we loop over the set for a complexity of n.
 
-Part B: n log n + 2 -- O(n log n).  We use one of the same sets created in Part A, so that time complexity carries over. A function to calculate the percentage is done in 2 lines.
+Part B: n log n + 1 -- O(n log n).  We use the count variables created in Part A, so that time complexity carries over. A calculation of percentage is done in 1 line.
 
 Task 4
 
