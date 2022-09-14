@@ -63,7 +63,7 @@ def merge(list1, list2):
     else:
         merged_list = LinkedList(Node(node_2.value))
         merged_list.append(Node(node_2.value))
-    while node_1 or node_2:
+    while node_1.next or node_2.next:
         if not node_1.next and not node_2.next:
             break
         if node_1.next and node_2.next:
@@ -73,9 +73,6 @@ def merge(list1, list2):
             if node_2.next.value < node_1.next.value:
                 merged_list.append(node_2.next.value)
                 merged_list.append(node_1.next.value)
-            else:
-                merged_list.append(node_1.next.value)
-                merged_list.append(node_2.next.value)
             node_1 = node_1.next
             node_2 = node_2.next
         elif node_1.next:
@@ -92,13 +89,11 @@ def merge(list1, list2):
 class NestedLinkedList(LinkedList):
     def flatten(self):
         node = self.head
-        accumulated_linked_list = LinkedList(Node(node.value))
+        first_linked_list = node.value
         while node.next:
-            merged_nodes = merge(node.value, node.next.value)
-            print(merged_nodes.to_list())
-            # accumulated_linked_list = merge(accumulated_linked_list, merged_nodes)
+            first_linked_list = merge(first_linked_list, node.next.value)
             node = node.next
-        return accumulated_linked_list
+        return first_linked_list
         
 
 # First Test scenario
