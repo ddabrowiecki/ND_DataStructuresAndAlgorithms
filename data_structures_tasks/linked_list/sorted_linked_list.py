@@ -108,7 +108,6 @@ def sort(array):
             node.next = Node(node.value)
             break
         node = node.next
-    print(answer_array)
     return answer_array
         
 
