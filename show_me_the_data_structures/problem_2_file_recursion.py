@@ -1,5 +1,4 @@
 import os
-
 class Node:
     def __init__(self, value=None):
         self.value = value
@@ -27,18 +26,6 @@ class Tree:
     def get_root(self):
         return self.root
 
-a = Node(5)
-b = Node(6)
-c = Node(7)
-d = Node(8)
-
-a.set_child(b)
-a.set_child(c)
-b.set_child(d)
-
-tree = Tree(4)
-tree.get_root().set_child(a)
-
 def find_files(suffix, path):
     """
     Find all files beneath path with file name suffix.
@@ -55,31 +42,31 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
-    visit_order = list()
-    
-
-    return None
-
-def practice(tree):
-    visit_order = list()
-    root = tree.get_root()
+    file_visit_order = list()
+    folder_visit_order = list()
     #recursive function
     def traverse(node):
-        if node:
-            visit_order.append(node.get_value())
-            for child in node.children:
+        if node.startswith('subsub'):
+            print(os.path.isdir(node))
+        if node.endswith(suffix):
+            pass
+            # visit_order.append(node)
+        if os.path.isdir(node):
+            for child in os.listdir(node):
                 traverse(child)
-
-    traverse(root)
+    traverse(path)
     return visit_order
 
 
 # Add your own test cases: include at least three test cases
 # and two of them must include edge cases, such as null, empty or very large values
 
-print(practice(tree))
+path = './testdir'
+os.chdir(path)
+cwd = os.getcwd()
+
 # Test Case 1
-# find_files('.c', "")
+print(find_files('.c', cwd))
 
 # Test Case 2
 
