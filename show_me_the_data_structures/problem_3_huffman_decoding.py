@@ -7,71 +7,11 @@ class Node:
         self.frequency = None
         self.left = None
         self.right = None
+    
+    def __lt__(self, other):
+        return (self.frequency < other.frequency)
 
-# Heap class influenced by class from next module
-class Heap:
-    def __init__(self, initial_size=10):
-        self.cbt = [None for _ in range(initial_size)]
-        self.next_index = 0
-
-    def insert(self, data):
-        # insert element at the next index
-        self.cbt[self.next_index] = data
-
-        self._up_heapify()
-
-        self.next_index += 1
-
-        # double the array and copy elements if next_index goes out of array bounds
-        if self.next_index >= len(self.cbt):
-            temp = self.cbt
-            self.cbt = [None for _ in range(2 * len(self.cbt))]
-
-            for index in range(self.next_index):
-                self.cbt[index] = temp[index]
-
-    def _up_heapify(self):
-        child_index = self.next_index
-
-        while child_index >= 1:
-            parent_index = (child_index - 1) // 2
-            parent_element = self.cbt[parent_index]
-            child_element = self.cbt[child_index]
-
-            if parent_element > child_element:
-                self.cbt[parent_index] = child_element
-                self.cbt[child_index] = parent_element
-
-                child_index = parent_index
-            else:
-                break
-    def remove(self):
-        if self.size() == 0:
-            return None
-        self.next_index -= 1
-
-        to_remove = self.cbt[0]
-        last_element = self.cbt[self.next_index]
-
-        # place last element of the cbt at the root
-        self.cbt[0] = last_element
-
-        # we do not remove the elementm, rather we allow next `insert` operation to overwrite it
-        self.cbt[self.next_index] = to_remove
-        self._down_heapify()
-        return to_remove
-
-    def size(self):
-        return self.next_index 
-
-# From Python heapq documentation
-def heapsort(iterable):
-    h = []
-    for value in iterable:
-        heapq.heappush(h, value)
-    return [heapq.heappop(h) for i in range(len(h))]
-
-test = 'AAAAABBBCCCC'
+test = 'The bird is the word Lets just make very fucking sure that it can handle it'
 
 def get_frequency(string_to_encode):
     frequency_map = {}
@@ -85,21 +25,51 @@ def get_frequency(string_to_encode):
 def create_priority_queue(frequency_map):
     frequency_list = []
     for letter, frequency in frequency_map.items():
-        heapq.heappush(frequency_list, (frequency, letter))
-        # node = Node(letter)
-        # node.frequency = frequency
-        # frequency_list.append(node)
+        node = Node(letter)
+        node.frequency = frequency
+        heapq.heappush(frequency_list, (frequency, node))
     return frequency_list
 
+def traverse(root):
+    visit_order = []
+    tuple = root
+    code = []
+    def traverse(tuple, code):
+        if tuple:
+            if tuple[1].left:
+                code.append("0")
+            traverse(tuple[1].left, code)
+            if tuple[1].right:
+                code.append("1")
+            visit_order.append(tuple[1].value)
+            if not tuple[1].left and not tuple[1].right:
+                visit_order.append('blah')
+            traverse(tuple[1].right, code)
+    code = []
+    traverse(tuple, code)
+    return ''.join(code)
+
+# Received helpful advice from this post https://knowledge.udacity.com/questions/362115
 def huffman_encoding(data):
     frequency_map = get_frequency(data)
     priority_queue = create_priority_queue(frequency_map)
-    first_min_element = heapq.heappop(priority_queue)
-    second_min_element = heapq.heappop(priority_queue)
-    merge = heapq.merge(first_min_element, second_min_element)
-    print(merge)
-    pass
 
+    # Create Huffman tree
+    while len(priority_queue) > 1:
+        first_min_element = heapq.heappop(priority_queue)
+        second_min_element = heapq.heappop(priority_queue)
+        merged_frequency = first_min_element[0] + second_min_element[0]
+        node = Node("P")
+        node.left = first_min_element
+        node.right = second_min_element
+        node.frequency = merged_frequency
+        heapq.heappush(priority_queue, (node.frequency, node))
+
+    root = priority_queue[0]
+    code = traverse(root)
+    print(code)
+    return code
+    
 huffman_encoding(test)
 
 def huffman_decoding(data,tree):
