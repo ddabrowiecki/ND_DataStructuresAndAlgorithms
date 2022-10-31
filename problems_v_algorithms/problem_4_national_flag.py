@@ -5,21 +5,24 @@ def sort_012(input_list):
     Args:
        input_list(list): List to be sorted
     """
+    if input_list == []:
+        return "No elements in array."
     zeros_list = []
     ones_list = []
     twos_list = []
     for number in input_list:
         if number == 0:
             zeros_list.append(number)
-        if number == 1:
+        elif number == 1:
             ones_list.append(number)
-        if number == 2:
+        elif number == 2:
             twos_list.append(number)
+        else:
+            return "Invalid number found."
     return zeros_list + ones_list + twos_list
 
 def test_function(test_case):
     sorted_array = sort_012(test_case)
-    print(sorted_array)
     if sorted_array == sorted(test_case):
         print("Pass")
     else:
@@ -28,3 +31,7 @@ def test_function(test_case):
 test_function([0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 2])
 test_function([2, 1, 2, 0, 0, 2, 1, 0, 1, 0, 0, 2, 2, 2, 1, 2, 0, 0, 0, 2, 1, 0, 2, 0, 0, 1])
 test_function([0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2])
+
+assert sort_012([2, 1, 0]) == [0, 1, 2]
+assert sort_012([3, 5, 1, 0, 2]) == "Invalid number found."
+assert sort_012([]) == "No elements in array."

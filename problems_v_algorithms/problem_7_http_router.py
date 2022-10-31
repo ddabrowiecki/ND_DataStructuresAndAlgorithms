@@ -15,7 +15,7 @@ class RouteTrie:
         for path_chunk in separated_path:
             if path_chunk not in current_node.children:
                 current_node.children[path_chunk] = RouteTrieNode()
-                current_node = current_node.children[path_chunk]
+            current_node = current_node.children[path_chunk]
         current_node.handler = handler
 
     def find(self, path):
@@ -69,12 +69,6 @@ class Router:
         else:
             return self.route_trie.find(path)
 
-
-    # def split_path(self, ...):
-    #     # you need to split the path into parts for 
-    #     # both the add_handler and loopup functions,
-    #     # so it should be placed in a function here
-
 # create the router and add a route
 router = Router("root handler", "not found handler") # remove the 'not found handler' if you did not implement this
 router.add_handler("/home/about", "about handler")  # add a route
@@ -85,3 +79,8 @@ print(router.lookup("/home")) # should print 'not found handler' or None if you 
 print(router.lookup("/home/about")) # should print 'about handler'
 print(router.lookup("/home/about/")) # should print 'about handler' or None if you did not handle trailing slashes
 print(router.lookup("/home/about/me")) # should print 'not found handler' or None if you did not implement one
+
+router.add_handler("/home/employees/dominic/hobbies", "hobbies page handler")
+assert router.lookup("home/about/james/") == "not found handler"
+assert router.lookup("/home/employees/dominic/hobbies") == "hobbies page handler"
+assert router.lookup("/home/about/dominic/hobbies/soccer/") == "not found handler"

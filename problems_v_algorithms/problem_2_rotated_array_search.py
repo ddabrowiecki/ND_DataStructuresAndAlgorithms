@@ -7,6 +7,12 @@ def rotated_array_search(input_list, number):
     Returns:
        int: Index or -1
     """
+    if input_list == []:
+        return "No elements in array"
+    if len(input_list) == 1 and input_list[0] == number:
+        return 0
+    if len(input_list) == 1 and input_list[0] != number:
+        return -1
     pivot_index = find_pivot(input_list)
     if number >= input_list[0]:
         return binary_search(input_list[:pivot_index], number)
@@ -57,3 +63,7 @@ test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 8])
 test_function([[6, 7, 8, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 10])
+
+assert rotated_array_search([], 1) == "No elements in array"
+assert rotated_array_search([1], 0) == -1
+assert rotated_array_search([5,6,7,1,2,3,4], 10) == -1

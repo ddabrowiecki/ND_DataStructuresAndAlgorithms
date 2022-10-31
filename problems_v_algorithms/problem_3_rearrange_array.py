@@ -24,14 +24,12 @@ def rearrange_digits(input_list):
         else:
             second_integer += str(maximum)
         copied_array.remove(maximum)
-        print(first_integer, second_integer)
         
     return [int(first_integer), int(second_integer)]
 
 def test_function(test_case):
     output = rearrange_digits(test_case[0])
     solution = test_case[1]
-    print(output, solution)
     if sum(output) == sum(solution):
         print("Pass")
     else:
@@ -39,3 +37,7 @@ def test_function(test_case):
 
 test_function([[1, 2, 3, 4, 5], [542, 31]])
 test_function([[4, 6, 2, 5, 9, 8], [964, 852]])
+
+assert rearrange_digits([]) == "There are no numbers in the input list."
+assert rearrange_digits([2]) == 2
+assert rearrange_digits([3,9,7,5,6,3,4]) == [9643,753]

@@ -14,7 +14,6 @@ def sqrt(number):
     upper_bound = number // 2
     lower_bound = 1
     while lower_bound <= upper_bound:
-        print(lower_bound, upper_bound)
         mid = (lower_bound + upper_bound) // 2
         if mid * mid == number or mid + 1 == upper_bound:
             return mid
@@ -30,4 +29,7 @@ print ("Pass" if  (0 == sqrt(0)) else "Fail")
 print ("Pass" if  (4 == sqrt(16)) else "Fail")
 print ("Pass" if  (1 == sqrt(1)) else "Fail")
 print ("Pass" if  (5 == sqrt(27)) else "Fail")
-print('pass' if (88 == sqrt(7784)) else "Fail")
+
+assert sqrt(0) == 0
+assert sqrt(1) == 1
+assert sqrt(7784) == 88

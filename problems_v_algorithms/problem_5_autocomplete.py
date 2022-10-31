@@ -40,10 +40,12 @@ class Trie:
 
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
+        if type(prefix) != str:
+            return "This is not a string."
         place = self.root
         for char in prefix:
             if char not in place.children:
-                return
+                return "No suffixes for this prefix."
             place = place.children[char]
 
 MyTrie = Trie()
@@ -56,22 +58,13 @@ for word in wordList:
     MyTrie.insert(word)
 
 assert (MyTrie.root.children['a'].suffixes()) == ['nt', 'nthology', 'ntagonist', 'ntonym']
-
-# from ipywidgets import widgets
-# from IPython.display import display
-# from ipywidgets import interact
-# def f(prefix):
-#     if prefix != '':
-#         prefixNode = MyTrie.find(prefix)
-#         if prefixNode:
-#             print('\n'.join(prefixNode.suffixes()))
-#         else:
-#             print(prefix + " not found")
-#     else:
-#         print('')
-# interact(f,prefix='');
+assert (MyTrie.root.children['f'].suffixes()) == ['un', 'unction', 'actory']
+assert (MyTrie.find('bar')) == "No suffixes for this prefix."
+assert (MyTrie.find('x')) == "No suffixes for this prefix."
+assert (MyTrie.find(0)) == "This is not a string."
 
 # Previous attempt at solution on my own
+
 # def suffixes(self, suffix = ''):
 #         ## Recursive function that collects the suffix for 
 #         ## all complete words below this point
