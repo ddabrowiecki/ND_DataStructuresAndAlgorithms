@@ -7,3 +7,7 @@ If yes, we know that we can search only in the "left" half of the array.  If no,
 ## Time complexity
 
 We employ binary search twice in this problem, with a time complexity of O(log n).
+
+## Space complexity
+
+Since we are not creating extra data structures for this problem, space complexity is O(1).
