@@ -4,4 +4,5 @@ For this problem, we implement a trie, creating a class with insert and find met
 
 ## Time complexity
 
-We implement several for loops here, for a time complexity of O(n).
+The time complexity of this solution requires that we take into account the number of paths
+included (n) as well as the average length of the paths (L), in big O notation: O(n*L).
