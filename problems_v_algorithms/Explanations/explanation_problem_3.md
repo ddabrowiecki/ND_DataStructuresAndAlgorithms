@@ -7,3 +7,7 @@ We loop through the array, finding the maximum integer and then remove it from t
 ## Time complexity
 
 The solution runs in linear time, O(n).
+
+## Space complexity
+
+We only are saving integers and concatenating them, with time complexity of O(1).
